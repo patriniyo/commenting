@@ -16,6 +16,7 @@ class user {
     this.connection = mysql.createConnection({
       host: "localhost",
       user: "root",
+      database: "commenting_roles",
       password: ""
     });
   }
