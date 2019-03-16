@@ -1,0 +1,22 @@
+{
+  "name": "commenting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "commentmanage.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patriniyo/commenting.git"
+  },
+  "author": "Patrick Niyomwungeri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patriniyo/commenting/issues"
+  },
+  "homepage": "https://github.com/patriniyo/commenting#readme",
+  "dependencies": {
+    "mysql": "^2.16.0"
+  }
+}
