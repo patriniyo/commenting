@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-
+const moment = require('moment');
 class User {
   constructor(id) {
     this.myId = id;
@@ -13,7 +13,7 @@ class User {
     });
   }
   logIn() {
-    this.lastLoggedInAt = new Date();
+    this.lastLoggedInAt = moment().format('YYYY-MM-DD HH:mm:ss');
     this.loggedIn = true;
   }
   logOut() {
@@ -25,12 +25,24 @@ class User {
   closeConnection() {
     this.connection.end();
   }
-  createComment(author, message) {
-
+  createComment(message) {
+    const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+    this.connectToDataBase();
+    const sql = `INSERT INTO comment (author, timestamp, message) VALUES (${this.myId},'${timestamp}','${message}')`;
+    this.connection.query(sql, (err, result) => {
+      if (err) throw err;
+    });
+    this.closeConnection();
   }
 
   createReply(parent, message) {
-
+    const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+    this.connectToDataBase();
+    const sql = `INSERT INTO reply (parent_id, timestamp, message) VALUES (${parent}, '${timestamp}','${message}')`;
+    this.connection.query(sql, (err, result) => {
+      if (err) throw err;
+    });
+    this.closeConnection();
   }
 
   /*testUser(id) {
@@ -57,14 +69,14 @@ class User {
   }
 }
 class moderator extends User {
-  constructor() {
-    super();
+  constructor(id) {
+    super(id);
   }
 
 }
-class admin extends moderator {
-  constructor() {
-    super();
+class Admin extends moderator {
+  constructor(id) {
+    super(id);
   }
   createUser(name, role) {
     this.connectToDataBase();
@@ -76,4 +88,8 @@ class admin extends moderator {
   }
 
 }
-const user = new User(2);
+const user = new User(5);
+const admin = new Admin(3);
+admin.createComment("As an admin I can confirmm that");
+//user.createComment("The moment js is a great tool ever");
+user.createReply(3, "I love him too, He is great forever");
