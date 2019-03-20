@@ -19,6 +19,10 @@ class User {
   logOut() {
     this.loggedIn = false
   }
+
+  addNumbers(a, b) {
+    return a + b;
+  }
   connectToDataBase() {
     this.connection.connect();
   }
@@ -26,14 +30,17 @@ class User {
     this.connection.end();
   }
   createComment(message) {
+    let resalt;
     const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
     this.connectToDataBase();
     const sql = `INSERT INTO comment (author, timestamp, message) VALUES (${this.myId},'${timestamp}','${message}')`;
     this.connection.query(sql, (err, result) => {
       if (err) throw err;
       console.log("The comment created");
+      resalt = result;
     });
     this.closeConnection();
+    return resalt;
   }
 
   createReply(parent, message) {
@@ -118,12 +125,13 @@ class Admin extends moderator {
 
 }
 const user = new User(3);
-user.getAllComments();
+user.createComment('Testing tests');
 const admin = new Admin(3);
 //admin.editComment(2, "This is edited by the admin!");
-admin.deleteComment(2);
+//admin.deleteComment(2);
 //user.editComment(3, "This is edited!");
 //user.deleteComment(3);
 //admin.createComment("As an admin I can confirmm that");
 //user.createComment("Another comment after a deletion");
 //user.createReply(3, "I love him too, He is great forever");
+module.exports = User;
