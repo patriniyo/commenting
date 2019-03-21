@@ -30,7 +30,6 @@ class User {
     this.connection.end();
   }
   createComment(message) {
-    let resalt;
     const timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
     this.connectToDataBase();
     const sql = `INSERT INTO comment (author, timestamp, message) VALUES (${this.myId},'${timestamp}','${message}')`;
@@ -40,7 +39,6 @@ class User {
       resalt = result;
     });
     this.closeConnection();
-    return resalt;
   }
 
   createReply(parent, message) {
@@ -110,6 +108,7 @@ class Admin extends moderator {
     this.connection.query(sql, (err, result) => {
       if (err) throw err;
     });
+    console.log('User created');
     this.closeConnection();
   }
 
@@ -125,13 +124,16 @@ class Admin extends moderator {
 
 }
 const user = new User(3);
-user.createComment('Testing tests');
-const admin = new Admin(3);
+//user.createComment('Testing tests');
+const admin = new Admin(1);
+//admin.createUser('Alexis', 2);
+//user.createUser('Alexis', 2);
 //admin.editComment(2, "This is edited by the admin!");
 //admin.deleteComment(2);
-//user.editComment(3, "This is edited!");
+user.editComment(17, "This is edited!");
 //user.deleteComment(3);
-//admin.createComment("As an admin I can confirmm that");
+//admin.createComment("THis inheritance");
+//admin.editComment(17, "Niyi tuyisimbuje");
 //user.createComment("Another comment after a deletion");
 //user.createReply(3, "I love him too, He is great forever");
 module.exports = User;
